@@ -54,10 +54,10 @@ public:
             }
         }
 
-        for(ll i=1;i<(1LL<<n);i++){
-            cout<<dp[i]<<" ";
-        }
-        cout<<endl;
+        // for(ll i=1;i<(1LL<<n);i++){
+        //     cout<<dp[i]<<" ";
+        // }
+        // cout<<endl;
 
         return dp[(1LL<<n)-1];
     }
