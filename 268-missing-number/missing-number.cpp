@@ -1,14 +1,15 @@
 class Solution {
 public:
-    int missingNumber(vector<int>& nums) {
-        
-        int n=nums.size();
-        int x1=0,x2=0;
-        for(int i=0;i<n;i++){
-            x2=x2^nums[i];
-            x1=x1^i;
+    int missingNumber(vector<int>& nums) { 
+       unordered_set<int> st;
+       for(auto x:nums){
+        st.insert(x);
+       }
+       for(int i=0;i<=nums.size();i++){
+        if(st.find(i)== st.end()){
+            return i;
         }
-        x1=x1^n;
-        return (x1^x2);
+       }
+       return -1;
     }
 };
