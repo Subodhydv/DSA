@@ -10,24 +10,47 @@
  */
 class Solution {
 public:
+    ListNode* findNthNode(ListNode* temp, int k) {
+        int cnt = 1;
+
+        while (temp != NULL) {
+            if (cnt == k)
+                return temp;
+
+            cnt++;
+            temp = temp->next;
+        }
+
+        return NULL;
+    }
+
     ListNode* rotateRight(ListNode* head, int k) {
-        if (!head || !head->next || k == 0)
+
+        if (head == NULL || head->next == NULL || k == 0)
             return head;
-        int length = 1;
+
         ListNode* tail = head;
-        while (tail->next) {
+        int len = 1;
+
+        while (tail->next != NULL) {
             tail = tail->next;
-            length++;
+            len++;
         }
+
+        k = k % len;
+
+        if (k == 0)
+            return head;
+
+        // Make circular
         tail->next = head;
-        k = k % length;
-        int stepsToNewTail = length - k;
-        ListNode* newTail = head;
-        for (int i = 1; i < stepsToNewTail; i++) {
-            newTail = newTail->next;
-        }
-        ListNode* newHead = newTail->next;
-        newTail->next = NULL;
+
+        ListNode* newLastNode =
+            findNthNode(head, len - k);
+
+        ListNode* newHead = newLastNode->next;
+
+        newLastNode->next = NULL;
 
         return newHead;
     }
