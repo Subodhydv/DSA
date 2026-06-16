@@ -2,32 +2,57 @@ class Solution {
 public:
     int sumSubarrayMins(vector<int>& arr) {
         int n = arr.size();
-        vector<int> pse(n), nse(n);
+        vector<int> prev(n);
+        vector<int> next(n);
+
         stack<int> st;
-        int mod = 1e9 + 7;
-        for(int i = 0; i < n; i++){
-            while(!st.empty() && arr[st.top()] > arr[i])
+        for(int i=0;i<n;i++){
+
+            while(!st.empty() &&
+                  arr[st.top()] > arr[i])
                 st.pop();
-            pse[i] = st.empty() ? -1 : st.top();
+
+            prev[i] =
+                st.empty() ? -1 : st.top();
+
             st.push(i);
         }
 
-        while(!st.empty()) st.pop();
-        for(int i = n-1; i >= 0; i--){
-            while(!st.empty() && arr[st.top()] >= arr[i])
+        while(!st.empty())
+            st.pop();
+
+        for(int i=n-1;i>=0;i--){
+
+            while(!st.empty() &&
+                  arr[st.top()] >= arr[i])
                 st.pop();
-            nse[i] = st.empty() ? n : st.top();
+
+            next[i] =
+                st.empty() ? n : st.top();
+
             st.push(i);
         }
 
-        long long sum = 0;
+        long long ans = 0;
+        long long mod = 1e9 + 7;
 
-        for(int i = 0; i < n; i++){
-            long long L = i - pse[i];
-            long long R = nse[i] - i;
-            sum = (sum + arr[i] * L * R) % mod;
+        for(int i=0;i<n;i++){
+
+            long long left =
+                i - prev[i];
+
+            long long right =
+                next[i] - i;
+
+            long long contribution =
+                (1LL * arr[i] *
+                 left % mod *
+                 right % mod) % mod;
+
+            ans =
+                (ans + contribution) % mod;
         }
 
-        return sum;
+        return ans;
     }
 };
