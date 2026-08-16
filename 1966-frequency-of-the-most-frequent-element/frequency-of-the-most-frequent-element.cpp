@@ -5,7 +5,7 @@ public:
         sort(nums.begin(),nums.end());
         int left=0;
         long long  sum=0;
-        int ans=1;
+        int ans=0;
         for(int right=0;right<nums.size();right++){
             sum+=nums[right];
             while((long long) nums[right]*(right-left+1)-sum > k){
